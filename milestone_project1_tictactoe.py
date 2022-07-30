@@ -1,5 +1,10 @@
 from pandas import pandas as pd
 import numpy as np
+import sys
+from datetime import date, datetime
+
+print('python version:', sys.version)
+print('todays date:', date.today())
 
 ### TicTacToe Integer Array limit
 valid_index_range = [x for x in range(1,10)]
@@ -8,7 +13,7 @@ valid_index_range = [x for x in range(1,10)]
 
 user_one_symbol = ''
 # capture users' symbols
-while user_one_symbol not in ('X','O'): 
+while user_one_symbol.lower() not in ('x','o'): 
 	user_one_symbol = input("Tic Tac Toe Game \nPlayer One : Please Choose 'X' or 'O' as your symbol!: ")
 
 def user_index_choice():
@@ -18,7 +23,7 @@ def user_index_choice():
 
 	while int_isnum == False or num_in_range == False:
 		initial_choice = input('Please pick an index number shown on the game board above: ')
-		# check if choice is an integer
+		# check if choice is an integerx
 		if initial_choice.isdigit() == True:
 			# check if choice is in the required integer range
 			if int(initial_choice) in range(1,10):
@@ -55,11 +60,12 @@ def show_ttt_table(dict_a):
 
 
 ### determine total available cells left to mark by users
+### this will help with determine if there were no winners
 def count_cells(dict_a):
 	### Initiate Cell Count
 	total_cells_marked = 0
 	total_cells = 9
-	for key, value in ttt_dict.items():
+	for key, value in dict_a.items():
 		for x in value:
 			if x.isdigit() == False:
 				total_cells_marked+=1
@@ -73,9 +79,9 @@ def count_cells(dict_a):
 
 ## determine if user two is the winner:
 def user_win_eval(dict_a, user1_symbol):
-	user_two_symbol = list(map(lambda user_one: 'O' if user_one == 'X' else 'X', user1_symbol)) 
+	user_two_symbol = list(map(lambda user1: 'o' if user1 == 'x' else 'x', user1_symbol)) 
 	user_two_symbol = user_two_symbol[0]
-	user1_symbol = user_one_symbol
+	user1_symbol = user1_symbol
 
 	diagonal_value_1 = [dict_a['COL1'][0], dict_a['COL2'][1], dict_a['COL3'][2]]
 	diagonal_value_2 = [dict_a['COL3'][0], dict_a['COL2'][1], dict_a['COL1'][0]]
@@ -117,9 +123,9 @@ def user_win_eval(dict_a, user1_symbol):
 # print(user_win_eval(ttt_dict))
 
 def user_two_selection(dict_a, user1_symbol):
-	user_two_symbol = list(map(lambda user_one: 'O' if user_one == 'X' else 'X', user1_symbol)) 
+	user_two_symbol = list(map(lambda user1: 'o' if user1 == 'x' else 'x', user1_symbol)) 
 	user_two_symbol = user_two_symbol[0]
-	while user_win_eval(dict_a, user_one_symbol) not in ('1','2'): 
+	while user_win_eval(dict_a, user_one_symbol) not in ('1','2') and count_cells(dict_a) > 0: 
 		print('\n'*50)
 		show_ttt_table(dict_a)
 		print("Hello User '2'!")
@@ -137,7 +143,7 @@ def user_two_selection(dict_a, user1_symbol):
 def user_one_selection(dict_a, user1_symbol):
 	print('\n'*50)
 	show_ttt_table(dict_a)
-	while user_win_eval(dict_a, user_one_symbol) not in ('1','2'): 
+	while user_win_eval(dict_a, user_one_symbol) not in ('1','2') and count_cells(dict_a) > 0: 
 		print("Hello User '1'!")
 		user_index_selection = str(user_index_choice())
 		# test
@@ -157,7 +163,7 @@ def user_one_selection(dict_a, user1_symbol):
 
 
 ### determine winner
-def game_winner(dict_a):
+def game_winner_eval(dict_a):
 	if user_win_eval(dict_a, user_one_symbol) is not None:
 		winner = user_win_eval(dict_a, user_one_symbol)
 	print('\n')
@@ -189,13 +195,18 @@ def game_init():
 	'COL2' : ['2','5','8'],
 	'COL3' : ['3','6','9'],
 	}
-	# while a winner is not found
-	while user_win_eval(dict_a, user_one_symbol) not in ('1','2'): 
-		
-		# ask user one		
+	# while a winner is not found and there are open slots, have the users keep playing/choosing
+	while user_win_eval(dict_a, user_one_symbol) not in ('1','2') and count_cells(dict_a) > 0: 	
 		user_one_selection(dict_a, user_one_symbol)
-	else:
-		game_winner(dict_a)
-		play_again(dict_a)
-
+		# if there are truely, no winners, notify users with TIE notification
+		if user_win_eval(dict_a, user_one_symbol) not in ('1','2') and count_cells(dict_a) == 0:
+			print('\n'*10)
+			show_ttt_table(dict_a)
+			print('No Winner - Tie Game')
+			play_again(dict_a)
+		# if there is a winner, present winner and ask if users want to rematch
+		elif user_win_eval(dict_a, user_one_symbol) in ('1','2'): 
+			game_winner_eval(dict_a)
+			play_again(dict_a)
 game_init()
+
