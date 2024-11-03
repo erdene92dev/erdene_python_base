@@ -1,2 +1,2 @@
 # erdene_python_base
-base python files containing learned curriculum in python
+<!-- this repo holds python learnings that I gained from learning sites such as udemy, coursera, w3schools, python.org etc.-->

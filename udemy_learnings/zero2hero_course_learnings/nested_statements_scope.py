@@ -36,6 +36,6 @@ def greet():
 		# Local Name
 		name = 'Erdene' 
 		print(f'Hello {name}, welcome to Sublime')
-	hello()
+	()hello
 greet()
 

@@ -4,12 +4,6 @@
 ### functions within classes() are more repeatable, scalable, 
 ### and look more organized, hence, easy to refer to
 
-from datetime import datetime, date, timedelta
-
-past = datetime.now() - timedelta(days=1)
-today = date.today()
-print(f'1 day past is {past}, today is {today}')
-
 # # OOP example Dog that has the function breed given user input
 
 # class animal():
