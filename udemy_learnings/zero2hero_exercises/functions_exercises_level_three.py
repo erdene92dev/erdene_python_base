@@ -33,34 +33,33 @@
 # --------------------------------------------------- #
 # Write a function that returns the number of prime numbers that exist up to and including a given number
 # prime number is a natural number greater than 1 and it is divisible by itself or 1, hence have a factor of 2 
-import math
 
-def count_primes(num):
-	# 2 is prime because it can created by the following 2 * 1 and 2 / 1 == 2:
-	# no other even numbers can be prime because it can factored by more than 2 times
+# -- prime v1
+# def count_primes(input_num):
+# 	# 2 is prime because it can created by the following 2 * 1 and 2 / 1 == 2:
+# 	# no other even numbers can be prime because it can factored by more than 2 times
+	
+# 	# check for 0 or 1 input
+# 	if input_num < 2:
+# 		return 0
 
-	# check for 0 or 1 input
+# 	# 2 or greater
+# 	# store primes
+# 	primes = [2]
 
-	if num < 2:
-		return 0
+# 	# counter to num
+# 	x = 3
 
-	# 2 or greater
-	# store primes
-	primes = [2]
+# 	while x <= num:
+# 		for y in primes:
+# 			# check if x is prime from 3 up to x
+# 			if x % y == 0:
+# 				x+=2
+# 				break
+# 		else:
+# 			primes.append(x)
+# 			x+=2
+# 	print(primes)
+# 	print(len(primes))
 
-	# counter to num
-	x = 3
-
-	while x <= num:
-		for y in primes:
-			# check if x is prime from 3 up to x
-			if x % y == 0:
-				x+=2
-				break
-		else:
-			primes.append(x)
-			x+=2
-	print(primes)
-	print(len(primes))
-
-count_primes(100)
+# count_primes(10)
